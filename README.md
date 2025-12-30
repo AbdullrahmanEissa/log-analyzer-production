@@ -217,6 +217,3 @@ It’s about:
 ---
 
 ⭐ If you found this useful, feel free to fork, study, or extend it.
-
-قول وأنا أظبطهولك 👊
-```
