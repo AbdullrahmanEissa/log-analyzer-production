@@ -1,21 +1,25 @@
-version:  '3.8'
+version: "3.8"
+
 services:
   backend:
     build: ../backend
-    container_name: backend
+    container_name: log-analyzer-backend
     ports:
       - "5000:5000"
     networks:
-      - log-analyzer-network
+      - log-analyzer
 
   frontend:
     build: ../frontend
-    container_name: frontend
+    container_name: log-analyzer-frontend
     ports:
-      - "5173:5173"
+      - "80:80"
+    depends_on:
+      - backend
     networks:
-      - log-analyzer-network
+      - log-analyzer
 
 networks:
-  log-analyzer-network:
+  log-analyzer:
     driver: bridge
+

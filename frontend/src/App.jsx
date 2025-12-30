@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// IMPORTANT:
+// - In dev: VITE_API_URL=http://localhost:5000
+// - In prod (with Nginx reverse proxy): leave it empty
+const API_URL = 'http://localhost:5000';
 
 function App() {
   const [logs, setLogs] = useState('');
@@ -12,7 +15,11 @@ function App() {
     if (!logs.trim()) return;
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/api/analyze`, { logs });
+      const response = await axios.post(
+        `${API_URL}/api/analyze`,
+        { logs },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
       setResults(response.data);
     } catch (err) {
       alert('Analysis failed');
@@ -24,17 +31,27 @@ function App() {
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif', maxWidth: '800px', margin: 'auto' }}>
       <h1>🔥 Realtime Log Analyzer</h1>
-      <textarea 
-        rows="10" 
+
+      <textarea
+        rows="10"
         style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}
         placeholder="Paste your logs here..."
         value={logs}
         onChange={(e) => setLogs(e.target.value)}
       />
-      <button 
+
+      <button
         onClick={handleAnalyze}
         disabled={loading}
-        style={{ marginTop: '10px', padding: '10px 20px', cursor: 'pointer', background: '#007bff', color: '#fff', border: 'none', borderRadius: '5px' }}
+        style={{
+          marginTop: '10px',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          background: '#007bff',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px'
+        }}
       >
         {loading ? 'Analyzing...' : 'Analyze Now'}
       </button>
@@ -48,6 +65,7 @@ function App() {
             <p>🔵 Info: {results.severity.INFO}</p>
           </div>
           <p>📅 Timestamps Found: {results.timestampsFound}</p>
+
           <h4>Keywords:</h4>
           <ul>
             {Object.entries(results.keywords).map(([kw, count]) => (
@@ -61,3 +79,4 @@ function App() {
 }
 
 export default App;
+
