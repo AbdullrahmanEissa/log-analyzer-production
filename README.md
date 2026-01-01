@@ -5,6 +5,9 @@ A **production-minded full-stack application** that analyzes raw logs and return
 
 This project is intentionally built **twice** to demonstrate the **real difference between Development and Production deployments** — not just “how to run Docker”.
 
+![log](https://github.com/user-attachments/assets/74bb7433-7e8c-40f8-9ae5-2c74ba521e7b)
+
+
 ---
 
 ## 🚀 Why This Project Exists
